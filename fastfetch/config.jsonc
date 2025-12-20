@@ -1,0 +1,68 @@
+{
+    "logo": {
+        "source": "/home/abraham/.config/fastfetch/asciiMiku.txt",
+	"padding": {
+	  "top": 2,
+	  "left": 5,
+	},
+
+    "color": {
+        "1": "#37D5ED",
+    }
+    },
+    "display": {
+        "separator": "  "
+    },
+    "modules": [
+        "break",
+        "break",
+        "break",
+	{
+	    "type": "host",
+	    "keyColor": "yellow"
+	},
+        {
+            "type": "os",
+            "keyColor": "red",
+        },
+        {
+            "type": "kernel",
+            "keyColor": "green",
+        },
+        {
+            "type": "packages",
+            "keyColor": "cyan",  
+        },
+        {
+            "type": "uptime",
+            "keyColor": "white", 
+        },
+        {
+            "type": "memory",
+            "keyColor": "blue",	
+        },
+	{
+            "type": "command",
+            "key": "OS Age",
+            "keyColor": "magenta",
+            "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"
+	},
+	{
+	   "type": "custom",
+	   "format": "\u001b[90m─────────────────────────────────────",
+	},
+	{
+	   "type": "custom",
+	   "format": "  The industrial revolution and its\n\t\t\t\t        consequences have been a disaster\n\t\t\t\t\t       for the human race",
+	},
+	{
+            "type": "colors",
+            "paddingLeft": 10,
+            "symbol": "circle"
+        
+	},
+	    
+        "break",
+
+        ]
+}
