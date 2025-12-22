@@ -30,8 +30,7 @@
 ; Evil emacs
 (require 'evil
 	 (evil-mode 1)
-	 (evil-set-undo-system 'undo-tree)
-	 )
+	 (evil-set-undo-system 'undo-tree))
 
 ; Ivy 
 (require 'ivy
@@ -45,3 +44,13 @@
  (with-eval-after-load 'tex
     (add-to-list 'TeX-view-program-selection
                  '(output-pdf "Zathura")))
+
+; Treemacs and other things
+(treemacs)
+
+(require 'flycheck
+	 (global-flycheck-mode))
+
+(require 'company-mode
+	 (global-company-mode))
+
