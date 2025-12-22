@@ -24,18 +24,8 @@
         
         modules = [
           ./configuration.nix
-          #home-manager.nixosModules.home-manager
-          #{
-          #  home-manager = {
-          #    useGlobalPkgs = true;
-          #    useUserPackages = true;
-          #    users.abraham = ./home.nix;
-          #    extraSpecialArgs = { inherit inputs; };
-          #  };
-          #}
         ];
       };
     };
   };
 }
-  
