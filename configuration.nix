@@ -16,6 +16,7 @@
       cp -r $src/1080-HatsuneMiku/* $out/'';
     };
   in
+    
    {
     imports =
     [ # Include the results of the hardware scan.
@@ -56,7 +57,11 @@
   time.timeZone = "America/Mexico_City";
   
   # Hyprland 
-  programs.hyprland.enable = true;
+  programs = {
+    hyprland.enable = true;
+    waybar.enable = true;
+  };
+  
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
 
@@ -79,7 +84,6 @@
       };
     };
   };
-
   services.blueman.enable = true;
 
   # Enable CUPS to print documents.
@@ -129,10 +133,13 @@
   programs.steam.gamescopeSession.enable = true;
   services.xserver.videoDrivers = [ "radeon" ];
   programs.gamemode.enable = true;
+  
+  # Thunderbird 
   programs.thunderbird = {
     enable = true;
-    package = pgks.thunderbird;
+    package = pkgs.thunderbird;
   };
+  services.protonmail-bridge.enable = true;
 
   # Xbox controller
   hardware = {
@@ -143,14 +150,18 @@
   # My GNU Emacs override
   nixpkgs.config.packageOverrides = pkgs: rec {
     myEmacs = pkgs.emacs.pkgs.withPackages (epkgs: with epkgs; [
-      org-view-mode
       auctex 
-      proof-general 
+      company 
       evil 
+      flycheck 
       ivy 
-      undo-tree  
-      nix-mode
       lsp-mode
+      lsp-treemacs 
+      nix-mode
+      org-view-mode
+      proof-general 
+      treemacs-icons-dired 
+      undo-tree  
     ]);
   };
 
@@ -158,10 +169,10 @@
   environment.systemPackages = with pkgs; [
 
   #Fundamental
-  kitty
   git
-  pkgs.librewolf
+  kitty
   myEmacs
+  pkgs.librewolf
   
   # Useful things
   pkgs.gimp
@@ -172,37 +183,39 @@
   pkgs.nixd
 
   # For college
-  pkgs.zathura
-  pkgs.wxhexeditor
-  pkgs.miktex
   pkgs.geogebra 
+  pkgs.miktex
+  pkgs.wxhexeditor
+  pkgs.zathura
 
   # Just in case
   pkgs.inkscape-with-extensions 
 
   # Cute things
-  pkgs.fastfetch  
-  pkgs.htop-vim
   pkgs.cava
   pkgs.cmatrix
-  pkgs.hyprpaper
+  pkgs.fastfetch  
+  pkgs.htop-vim
   pkgs.hyprcursor
   pkgs.hyprgraphics
+  pkgs.hyprpaper
   pkgs.hyprpicker
+  pkgs.kittysay 
+  pkgs.lsd 
+  pkgs.ranger 
+  pkgs.sl 
   
   # Useful stuff
-  pkgs.kdePackages.dolphin
   pkgs.discord 
   pkgs.grimblast 
   pkgs.hyprlauncher
   pkgs.waytrogen 
-  pkgs.waybar
   
   # Gaming 
-  pkgs.mangohud
-  pkgs.protonup-ng
   pkgs.linuxKernel.packages.linux_zen.xone  
   pkgs.linuxKernel.packages.linux_zen.xpadneo  
+  pkgs.mangohud
+  pkgs.protonup-ng
    ];
 
   # GNU Emacs
