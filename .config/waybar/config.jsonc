@@ -12,7 +12,6 @@
   "modules-center": [ "hyprland/workspaces" ],
 
   "modules-right": [
-    "bluetooth",
     "network",
     "pulseaudio", 
     "backlight",
