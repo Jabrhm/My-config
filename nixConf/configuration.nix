@@ -1,12 +1,13 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-    imports =
-    [ 
-      ./hardware-configuration.nix
-    ];
+  imports = [ 
+    ./hardware-configuration.nix
+    ./Modules/Miku-Grub/default.nix
+    ./Modules/Battery/default.nix
+  ];
   
-  system.nixos.label = "Hyprland_and_flakes";
+  system.nixos.label = "Hypr_and_cuates";
 
   # Automatic cleanup
   nix.gc = {
@@ -23,47 +24,34 @@
   # Enable networking
   networking.networkmanager.enable = true;
    
-  # Set your time zone.
+  # Set your time zone
   time.timeZone = "America/Mexico_City";
   
-  # Hyprland 
+  # Hyprland y cuates
   programs = {
     hyprland.enable = true;
-    waybar.enable = true;
     hyprlock = {
       enable = true;
       package = pkgs.hyprlock;
     };
   };
-  
+  services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
-    variant = "";
+    variant = "intl";
   };
  
   # Configure console keymap
-  console.keyMap = "la-latin1";
-
-  # Bluetooth
-  hardware.bluetooth = {
-    enable = true;
-    settings = {
-      General = {
-        Experimental = true;
-        FastConnectable = true;
-      };
-    };
-  };
-  services.blueman.enable = true;
+  console.keyMap = "us";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.hplip ];
 
-  # SANE for scanning
+  # SANE for scaing
   hardware.sane.enable = true;
   hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ]; 
 
@@ -110,96 +98,55 @@
   # Thunderbird 
   programs.thunderbird = {
     enable = true;
-    package = pkgs.thunderbird;
-  };
-  services.protonmail-bridge.enable = true;
-
-  # Xbox controller
-  hardware = {
-    xpadneo.enable = true;
-    xone.enable = true;
+    package = pkgs.unstable.thunderbird-latest-unwrapped;
   };
 
-  # My GNU Emacs override
-  nixpkgs.config.packageOverrides = pkgs: rec {
-    myEmacs = pkgs.emacs.pkgs.withPackages (epkgs: with epkgs; [
-      auctex 
-      company 
-      evil 
-      flycheck 
-      ivy 
-      lsp-mode
-      lsp-treemacs 
-      nix-mode
-      org-view-mode
-      proof-general 
-      treemacs-nerd-icons
-      undo-tree  
-    ]);
-  };
-
-  # Packages in the system
+ # Packages in the system
   environment.systemPackages = with pkgs; [
 
   #Fundamental
   git
   kitty
-  myEmacs
-  pkgs.librewolf
-  
-  # Useful things
   pkgs.brightnessctl 
-  pkgs.gimp
+  pkgs.librewolf
   pkgs.lsd 
-  pkgs.nurl
-  pkgs.pavucontrol
-  pkgs.tor-browser
+  
 
   # Code
-  pkgs.gcc_multi
-  pkgs.nixd
+  pkgs.unstable.libclang
+  pkgs.unstable.libgccjit
+  pkgs.unstable.texlab 
+  pkgs.unstable.nixd 
 
-  # Just in case
-  pkgs.inkscape-with-extensions 
-  pkgs.pinta 
-
-  # Cute things
-  pkgs.fastfetch  
-  pkgs.hyprcursor
-  pkgs.hyprgraphics
-  pkgs.hyprpaper
-  pkgs.hyprpicker
+  # Graphical things
+  pkgs.unstable.fastfetch 
+  pkgs.hyprcursor 
+  pkgs.hyprgraphics 
+  pkgs.hyprpaper 
+  pkgs.hyprpicker 
+  pkgs.hyprtoolkit 
   
   # Useful stuff
-  pkgs.discord 
   pkgs.grimblast 
   pkgs.hyprlauncher
+  pkgs.waybar
   pkgs.waytrogen 
   
   # Gaming 
-  pkgs.linuxKernel.packages.linux_zen.xone  
-  pkgs.linuxKernel.packages.linux_zen.xpadneo  
   pkgs.mangohud
   pkgs.protonup-ng
    ];
 
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-  
-  # GNU Emacs
-  services.emacs = {
-    enable = true;
-    package = pkgs.myEmacs;
-    defaultEditor = true;
-  };
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-  
-  # Enable GNUPG
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
-  system.stateVersion = "25.05"; 
+ nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+ 
+ # Enable the OpenSSH daemon.
+ services.openssh.enable = true;
+ 
+ # Enable GNUPG
+ programs.gnupg.agent = {
+   enable = true;
+   enableSSHSupport = true;
+ };
+ 
+ system.stateVersion = "25.05"; 
 }
