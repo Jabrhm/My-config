@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, lib, ... }:
+{ config, lib, pkgs, inputs, ... }:
 let
   tex = (pkgs.texliveBasic.withPackages (
     ps: with ps; [
@@ -7,6 +7,9 @@ let
     ]));
 in
 {
+  imports = [
+  ];
+
   home = {
     username = "abraham";
     homeDirectory = "/home/abraham";
@@ -39,7 +42,6 @@ in
     pkgs.unimatrix
 
     # College 
-    pkgs.zathura
     tex 
   ];
 
@@ -49,32 +51,40 @@ in
   home.sessionVariables = {
   };
 
-  programs.yazi = {
+  programs.bash = {
     enable = true;
-    enableBashIntegration = true;
-    extraPackages = with pkgs; [
-      sudo 
-    ];
+    shellAliases = {
+      brights = "brightnessctl s";
+      nix-boot = "sudo nixos-rebuild boot --flake ~/nixConf";
+      nix-edit = "emacs ~/nixConf/configuration.nix";
+      nix-emacs = "nix-shell ~/.config/emacs";
+      nix-switch = "sudo nixos-rebuild switch --flake ~/nixConf";
+      nix-test = "sudo nixos-rebuild test --flake ~/nixConf";
+      nix-update = "sudo nix flake update --flake ~/nixConf";
+      sld = "sl";
+      vim = "emacs -nw";
+    };
   };
 
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs-gtk;
+    package = pkgs.emacs-pgtk;
 
     extraPackages = epkgs: [
       epkgs.auctex
+      epkgs.autotetris-mode
+      epkgs.ccls
       epkgs.company
-      epkgs.diredc
-      epkgs.enlight
+      epkgs.nerd-icons-dired
       epkgs.evil
       epkgs.flycheck
+      epkgs.latex-math-preview
       epkgs.lsp-mode
       epkgs.lsp-treemacs
       epkgs.magit
       epkgs.marginalia
       epkgs.nix-mode
       epkgs.orderless
-      epkgs.org-view-mode
       epkgs.proof-general
       epkgs.treemacs-nerd-icons
       epkgs.undo-tree
@@ -84,6 +94,7 @@ in
     extraConfig = ''
       (load "~/.config/emacs/Modules/gui.el");
       (load "~/.config/emacs/Modules/pConfig.el")
+      (load "~/.config/emacs/Modules/keybinds.el")
       (load "~/.config/emacs/Modules/theme.el")'';
   };
 
@@ -102,18 +113,13 @@ in
     '';
   };
 
-  programs.bash = {
+  programs.yazi = {
     enable = true;
-    shellAliases = {
-      btw = "echo I use nix, btw";
-      brights = "brightnessctl s";
-      nix-edit = "emacs ~/nixConf/configuration.nix";
-      nix-switch = "sudo nixos-rebuild switch --flake ~/nixConf";
-      nix-test = "sudo nixos-rebuild test --flake ~/nixConf";
-      nix-boot = "sudo nixos-rebuild boot --flake ~/nixConf";
-      nix-emacs = "nix-shell ~/.config/emacs";
-      sld = "sl";
-      vim = "emacs -nw";
-    };
+    enableBashIntegration = true;
+  };
+
+  programs.zathura = {
+    enable = true;
+    package = pkgs.unstable.zathura;
   };
 }
