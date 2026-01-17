@@ -1,10 +1,11 @@
-{ config, pkgs, lib, inputs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [ 
     ./hardware-configuration.nix
     ./Modules/Miku-Grub/default.nix
     ./Modules/Battery/default.nix
+    inputs.silentSDDM.nixosModules.default
   ];
   
   system.nixos.label = "Hypr_and_cuates";
@@ -98,7 +99,7 @@
   # Thunderbird 
   programs.thunderbird = {
     enable = true;
-    package = pkgs.unstable.thunderbird-latest-unwrapped;
+    package = pkgs.unstable.thunderbird;
   };
 
  # Packages in the system
@@ -108,13 +109,12 @@
   git
   kitty
   pkgs.brightnessctl 
+  pkgs.grimblast
   pkgs.librewolf
   pkgs.lsd 
-  
 
   # Code
-  pkgs.unstable.libclang
-  pkgs.unstable.libgccjit
+  pkgs.unstable.libgcc
   pkgs.unstable.texlab 
   pkgs.unstable.nixd 
 
@@ -122,22 +122,71 @@
   pkgs.unstable.fastfetch 
   pkgs.hyprcursor 
   pkgs.hyprgraphics 
-  pkgs.hyprpaper 
-  pkgs.hyprpicker 
+  pkgs.hyprpaper pkgs.hyprpicker 
   pkgs.hyprtoolkit 
   
   # Useful stuff
-  pkgs.grimblast 
   pkgs.hyprlauncher
   pkgs.waybar
-  pkgs.waytrogen 
+  pkgs.waypaper
   
   # Gaming 
+  pkgs.lm_sensors
   pkgs.mangohud
   pkgs.protonup-ng
    ];
 
  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
+ # SDDM Theme 
+ programs.silentSDDM = {
+   enable = true;
+   theme = "rei";
+
+   profileIcons = {
+     abraham = pkgs.fetchurl {
+       name = "icon";
+       url = "https://cdn.donmai.us/original/dc/ab/__nana_vocaloid_and_1_more_drawn_by_nou_nounknown__dcabacfdc153f2021a6361f0e176cf1c.jpg";
+       hash = "sha256-NtHL40CWIN8wOFl1rXw9kyvT/5y5Ai1aNGyOYV9lRTo=";
+     };
+   };
+
+   backgrounds = {
+     cherry-miku = pkgs.fetchurl {
+       name = "cherry-miku";
+       url = "https://konachan.com/sample/42e1f547a3358a15c672104d0f77249c/Konachan.com%20-%20388189%20sample.jpg";
+       hash = "sha256-taBr7xIbC3W8ystcyv2+Io5H1GSV4itdfRNViXpGLKw=";
+     };
+
+     pink-miku = pkgs.fetchurl {
+       name = "pink-miku";
+       url = "https://konachan.net/sample/570b88aa27c46500b068ba765db6c34f/Konachan.com%20-%20391747%20sample.jpg";
+       hash = "sha256-TtGL6ZBBnxCikkzOxC6YXV3kOGxxt2ZBlTMLx6yy7hs=";
+     };
+   };
+
+   settings = {
+     # Login screen settings
+     "LoginScreen" = {
+       background = "pink-miku";
+     };
+     "LoginScreen.LoginArea.Avatar" = {
+       active-border-color = "#140a1d";
+     };
+     "LoginScreen.LoginArea.Username" = {
+       color = "#140a1d";
+     };
+     "LoginScreen.LoginArea.PasswordInput" = {
+       content-color = "#140a1d";
+       border-color = "#140a1d";
+     };
+
+     # LockScreen settings
+     "LockScreen" = {
+       background = "pink-miku";
+     };
+   };
+ };
  
  # Enable the OpenSSH daemon.
  services.openssh.enable = true;
