@@ -1,3 +1,7 @@
-# My-config
-My backup.
-Today 30/12/25, I messed up mi config and grub doesnt boot, I'm doing the backup with a live iso. 
+# Is actually my NixOS configuration files and my dotfiles
+
+Hyprland on NixOS 25.11 with some unstable packages
+
+And screenshots yay
+![screenshot](/Screenshots/image_1.png)
+
