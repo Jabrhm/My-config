@@ -18,9 +18,7 @@
 }
 
 /* --- Left Modules (Individual, Fully Rounded Blocks - With Horizontal Spacing & Simple Hover) --- */
-#workspaces,
-#custom-uptime,
-#cpu {
+#workspaces{
   background-color: #140a1d;
   padding: 0.3rem 0.7rem;
   margin: 5px 0px; /* 5px top/bottom margin, 0px left/right (base for individual control) */
@@ -32,11 +30,25 @@
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
+#custom-uptime,
+#cpu {
+  background-color: #140a1d;
+  padding: 0.3rem 0.7rem;
+  margin: 5px 0px; /* 5px top/bottom margin, 0px left/right (base for individual control) */
+  border-radius: 0px; /* These modules are always rounded */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-width: 0;
+  border: none;
+  /* Transition for background-color and color only */
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
 #memory {
     background-color: #140a1d;
     padding: 0.3rem 0.7rem;
     margin: 5px 0px; /* 5px top/bottom margin, 0px left/right (base for individual control) */
-    border-radius: 6px; /* These modules are always rounded */
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     min-width: 0;
     border: none;
@@ -89,6 +101,17 @@
   min-width: 0;
   border: none;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  background-color: #140a1d;
+  padding: 0.3rem 0.7rem;
+  margin: 5px 0px;
+  border-radius: 6px; /* This module is always rounded */
+  box-shadow: 0 1px 3px rgba(153, 209, 219, 0.2);
+  min-width: 0;
+  border: none;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  margin-left: 5px;
 }
 
 /* Simple Hover effect for clock module - BRIGHTER COLOR */
@@ -233,4 +256,3 @@ tooltip {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   font-size: 12px;
 }
-
