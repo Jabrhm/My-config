@@ -17,36 +17,58 @@
         "break",
         "break",
         "break",
-        "break",
 	{
 	    "type": "host",
+	    "key": "⊳ host:",
+	    "keyColor": "yellow"
+	},
+	{
+	    "type": "cpu",
+	    "key": "┆ cpu:",
 	    "keyColor": "yellow"
 	},
         {
+            "type": "memory",
+	    "key": "┆ memory:",
+            "keyColor": "yellow",	
+        },
+        {
+            "type": "disk",
+	    "key": "┆ disk:",
+            "keyColor": "yellow",	
+        },
+	"break",
+        {
             "type": "os",
-            "keyColor": "red",
+	    "key": "⊳ os:",
+	    "format": "NixOS, btw", 
+            "keyColor": "blue"
         },
         {
             "type": "kernel",
-            "keyColor": "green",
+	    "key": "┆ kernel:",
+            "keyColor": "blue"
         },
         {
             "type": "packages",
-            "keyColor": "cyan",  
+	    "key": "┆ packages:",
+            "keyColor": "blue"  
         },
         {
             "type": "uptime",
-            "keyColor": "white", 
+	    "key": "┆ uptime:",
+            "keyColor": "blue"
         },
-        {
-            "type": "memory",
-            "keyColor": "blue",	
-        },
+	"break",
 	{
-            "type": "command",
-            "key": "OS Age",
-            "keyColor": "magenta",
-            "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"
+	    "type": "wm",
+	    "key": "⊳ wm:",
+	    "keyColor": "green"
+	},
+	{
+	    "type": "terminal",
+	    "key": "┆ terminal:",
+	    "keyColor": "green"
 	},
 	{
 	   "type": "custom",
@@ -60,11 +82,7 @@
             "type": "colors",
             "paddingLeft": 10,
             "symbol": "square"
-        
 	},
-	    
         "break",
-
-        ]
+	]
 }
-
