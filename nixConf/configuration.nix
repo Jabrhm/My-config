@@ -37,10 +37,7 @@
   # Hyprland and cuates
   programs = {
     hyprland.enable = true;
-    hyprlock = {
-      enable = true;
-      package = pkgs.hyprlock;
-    };
+    hyprlock.enable = true;
   };
   services.displayManager = {
     sddm.enable = true;
@@ -52,10 +49,8 @@
     layout = "us";
     variant = "intl";
   };
- 
-  # Configure console keymap
   console.keyMap = "us";
-
+ 
   # Enable CUPS to print documents.
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.hplip ];
@@ -83,13 +78,16 @@
   };
 
   # Fonts
-  fonts.packages = with pkgs; [ nerd-fonts.hack ];
+  fonts.packages = with pkgs; [
+    nerd-fonts.hack
+  ];
   
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Flakes
+  # Flakes and LSP
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   # ¬Enable nano
   programs.nano.enable = false;
@@ -124,12 +122,12 @@
   pkgs.librewolf
   pkgs.lsd 
 
-  # Code
+  # LSPs
+  pkgs.unstable.clang-tools 
   pkgs.unstable.texlab 
   pkgs.unstable.nixd 
 
   # Graphical things
-  pkgs.unstable.fastfetch 
   pkgs.hyprcursor 
   pkgs.hyprgraphics 
   pkgs.hyprpaper 
@@ -146,7 +144,6 @@
   pkgs.protonup-ng 
   ];
 
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
  # SDDM Theme 
  programs.silentSDDM = {
