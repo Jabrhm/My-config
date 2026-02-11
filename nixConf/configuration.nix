@@ -1,4 +1,8 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [ 
@@ -11,24 +15,26 @@
   system.nixos.label = "Hypr_and_cuates";
 
   # Automatic cleanup
-  nix.gc = {
-    automatic = true;
-    dates = "daily";
-    options = "--delete-older-than 10d";
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 10d";
+    };
+    settings.auto-optimise-store = true;
   };
 
-  nix.settings.auto-optimise-store = true;
+  # Profile and Network
+  networking = {
+    hostName = "nix"; 
+    networkmanager.enable = true;
+    modemmanager.enable = true;
+  };
 
-  # Profile  
-  networking.hostName = "dematoso"; 
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-   
   # Set your time zone
   time.timeZone = "America/Mexico_City";
   
-  # Hyprland y cuates
+  # Hyprland and cuates
   programs = {
     hyprland.enable = true;
     hyprlock = {
@@ -36,9 +42,11 @@
       package = pkgs.hyprlock;
     };
   };
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-
+  services.displayManager = {
+    sddm.enable = true;
+    sddm.wayland.enable = true;
+  };
+  
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -87,20 +95,23 @@
   programs.nano.enable = false;
 
   # Steam
-  programs.steam = {
-    enable = true;
-    protontricks.enable = true;
+  programs = {
+    steam = {
+      enable = true;
+      protontricks.enable = true;
+      gamescopeSession.enable = true;
+    };
+    gamemode.enable = true;
   };
-
-  programs.steam.gamescopeSession.enable = true;
   services.xserver.videoDrivers = [ "radeon" ];
-  programs.gamemode.enable = true;
   
   # Thunderbird 
   programs.thunderbird = {
     enable = true;
     package = pkgs.unstable.thunderbird;
   };
+
+  programs.kdeconnect.enable = true;
 
  # Packages in the system
   environment.systemPackages = with pkgs; [
@@ -114,7 +125,6 @@
   pkgs.lsd 
 
   # Code
-  pkgs.unstable.libgcc
   pkgs.unstable.texlab 
   pkgs.unstable.nixd 
 
@@ -122,21 +132,21 @@
   pkgs.unstable.fastfetch 
   pkgs.hyprcursor 
   pkgs.hyprgraphics 
-  pkgs.hyprpaper pkgs.hyprpicker 
+  pkgs.hyprpaper 
+  pkgs.hyprpicker 
   pkgs.hyprtoolkit 
   
   # Useful stuff
-  pkgs.hyprlauncher
   pkgs.waybar
   pkgs.waypaper
   
   # Gaming 
   pkgs.lm_sensors
   pkgs.mangohud
-  pkgs.protonup-ng
-   ];
+  pkgs.protonup-ng 
+  ];
 
- nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
  # SDDM Theme 
  programs.silentSDDM = {
@@ -152,12 +162,6 @@
    };
 
    backgrounds = {
-     cherry-miku = pkgs.fetchurl {
-       name = "cherry-miku";
-       url = "https://konachan.com/sample/42e1f547a3358a15c672104d0f77249c/Konachan.com%20-%20388189%20sample.jpg";
-       hash = "sha256-taBr7xIbC3W8ystcyv2+Io5H1GSV4itdfRNViXpGLKw=";
-     };
-
      pink-miku = pkgs.fetchurl {
        name = "pink-miku";
        url = "https://konachan.net/sample/570b88aa27c46500b068ba765db6c34f/Konachan.com%20-%20391747%20sample.jpg";
@@ -173,8 +177,24 @@
      "LoginScreen.LoginArea.Avatar" = {
        active-border-color = "#140a1d";
      };
+     "LoginScreen.LoginArea.Spinner" = {
+       color = "#140a1d";
+       text = "Dead to capitalism :3";
+     };
      "LoginScreen.LoginArea.Username" = {
        color = "#140a1d";
+     };
+     "LoginScreen.MenuArea.Power" = {
+       content-color = "#140a1d";
+     };
+     "LoginScreen.MenuArea.Keyboard" = {
+       content-color = "#140a1d";
+     };
+     "LoginScreen.MenuArea.Layout" = {
+       content-color = "#140a1d";
+     };
+     "LoginScreen.MenuArea.Session" = {
+       content-color = "#140a1d";
      };
      "LoginScreen.LoginArea.PasswordInput" = {
        content-color = "#140a1d";
