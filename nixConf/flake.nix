@@ -1,5 +1,5 @@
 {
-  description = "Flake for Configuration";
+  description = "The Flake that turns you non-binary";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
@@ -35,12 +35,12 @@
    in
    {
      nixosConfigurations = {
-       dematoso = nixpkgs.lib.nixosSystem {
+       nix = nixpkgs.lib.nixosSystem {
          inherit system;
          specialArgs = {
            inherit inputs;
          };
-         
+       
          modules = [
            ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })
            ./configuration.nix
@@ -56,13 +56,6 @@
            }
          ];
        };
-     };
-
-     homeConfigurations."abraham" = home-manager.lib.homeManagerConfiguration {
-       modules = [
-         ./home.nix
-       ];
-       extraSpecialArgs = { inherit inputs; };
      };
    };
 }
