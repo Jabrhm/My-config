@@ -1,4 +1,9 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  ...
+}:
+
 let
   tex = (pkgs.texliveBasic.withPackages (
     ps: with ps; [
@@ -7,9 +12,6 @@ let
     ]));
 in
 {
-  imports = [
-  ];
-
   home = {
     username = "abraham";
     homeDirectory = "/home/abraham";
@@ -22,19 +24,15 @@ in
     # Useful things
     pkgs.unstable.gimp
     pkgs.unstable.nurl
-    pkgs.pavucontrol
     pkgs.tor-browser
+    pkgs.pavucontrol
   
     # Useless things
     pkgs.unstable.discord
-    pkgs.unstable.discordo
 
     # Cute things
-    pkgs.unstable.btop
-    pkgs.cava
     pkgs.unstable.fastfetch
-    pkgs.htop-vim
-    pkgs.jp2a
+    pkgs.cava
     pkgs.kittysay
     pkgs.mpvpaper
     pkgs.sl 
@@ -42,6 +40,7 @@ in
     pkgs.unimatrix
 
     # College 
+    pkgs.libreoffice-qt-fresh
     tex 
   ];
 
@@ -62,7 +61,7 @@ in
       nix-test = "sudo nixos-rebuild test --flake ~/nixConf";
       nix-update = "sudo nix flake update --flake ~/nixConf";
       sld = "sl";
-      vim = "emacs -nw";
+      update-nix = "sudo nix flake update --flake ~/nixConf";
     };
   };
 
@@ -73,7 +72,6 @@ in
     extraPackages = epkgs: [
       epkgs.auctex
       epkgs.autotetris-mode
-      epkgs.ccls
       epkgs.company
       epkgs.nerd-icons-dired
       epkgs.evil
@@ -88,7 +86,7 @@ in
       epkgs.proof-general
       epkgs.treemacs-nerd-icons
       epkgs.undo-tree
-      epkgs.vertico
+      epkgs.vertico 
     ];
 
     extraConfig = ''
@@ -110,6 +108,7 @@ in
     extraConfig = ''
       background_opacity 0.4
       backgroun_blur 1
+      cursor_shape block 
     '';
   };
 
@@ -122,4 +121,28 @@ in
     enable = true;
     package = pkgs.unstable.zathura;
   };
+
+  programs.rofi = {
+    enable = true;
+    configPath = "~/.config/rofi/config.rasi";
+  };
+
+  programs.gcc = {
+    enable = true;
+    package = pkgs.unstable.gcc;
+  };
+
+  programs.btop = {
+    enable = true;
+    package = pkgs.unstable.btop;
+    settings = {
+      color_theme = "TTY";
+      theme_background = false;
+      truecolor = true;
+      vim_keys = true;
+      update_ms = 500;
+    };
+  };
+
+  services.kdeconnect.enable = true;
 }
