@@ -12,6 +12,7 @@
   "modules-center": [ "hyprland/workspaces" ],
 
   "modules-right": [
+    "bluetooth",
     "network",
     "pulseaudio", 
     "backlight",
@@ -26,19 +27,19 @@
     }
   },
 
-  "bluetooth": {
-    "format": "󰂲",
-    "format-on": "{icon}",
-    "format-off": "{icon}", 
-    "format-connected":"{icon}",
-    "format-icons":{
-        "on":"󰂯",
-        "off": "󰂲",
-        "connected": "󰂱",
-        },
-    "on-click": "blueman-manager",
-    "tooltip-format-connected":"{device_enumerate}"
-  },
+ "bluetooth": {
+   "format": "󰂲",
+   "format-on": "{icon}",
+   "format-off": "{icon}", 
+   "format-connected":"{icon}",
+   "format-icons":{
+       "on":"󰂯",
+       "off": "󰂲",
+       "connected": "󰂱",
+       },
+   "on-click": "blueman-manager",
+   "tooltip-format-connected":"{device_enumerate}"
+ },
 
   "custom/music": {
     "format": "  {}",
@@ -63,7 +64,7 @@
     "format-disconnected": "󰤠 ",
     "interval": 5,
     "tooltip-format": "{essid} ({signalStrength}%)",
-    "on-click": "nm-connection-editor"
+    "on-click": "nmtui"
 
  },
 
@@ -117,5 +118,4 @@
   "on-click": "sh -c '(sleep 0s; hyprlock)' & disown",
   "format" : ""
   },
-
 }
