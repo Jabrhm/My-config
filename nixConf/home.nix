@@ -1,6 +1,5 @@
 {
   pkgs,
-  inputs,
   ...
 }:
 
@@ -40,15 +39,9 @@ in
     pkgs.unimatrix
 
     # College 
-    pkgs.libreoffice-qt-fresh
+    pkgs.libreoffice
     tex 
   ];
-
-  home.file = {
-  };
-
-  home.sessionVariables = {
-  };
 
   programs.bash = {
     enable = true;
@@ -73,10 +66,10 @@ in
       epkgs.auctex
       epkgs.autotetris-mode
       epkgs.company
+      epkgs.dap-mode
       epkgs.nerd-icons-dired
       epkgs.evil
       epkgs.flycheck
-      epkgs.latex-math-preview
       epkgs.lsp-mode
       epkgs.lsp-treemacs
       epkgs.magit
@@ -84,7 +77,6 @@ in
       epkgs.nix-mode
       epkgs.orderless
       epkgs.proof-general
-      epkgs.treemacs-nerd-icons
       epkgs.undo-tree
       epkgs.vertico 
     ];
@@ -143,6 +135,28 @@ in
       update_ms = 500;
     };
   };
+  
+#  programs.neovim = {
+#    enable = true;
+#    vimAlias = true; 
+#    coc.enable = true;
+#    extraConfig = ''
+#      set number relativenumber
+#      colorscheme shado
+
+#      highlight Normal guibg=none
+#      highlight NonText guibg=none
+#      highlight Normal ctermbg=none
+#      highlight NonText ctermbg=none
+#      highlight LineNr guibg=NONE
+#    '';
+
+#    plugins = with pkgs.vimPlugins; [
+#      shadorain
+#      telescope-zf-native-nvim
+#      vimtex
+#    ];
+#  };
 
   services.kdeconnect.enable = true;
 }
