@@ -7,8 +7,11 @@
 {
   imports = [ 
     ./hardware-configuration.nix
-    ./Modules/Miku-Grub/default.nix
     ./Modules/Battery/default.nix
+    ./Modules/College/default.nix
+    ./Modules/Hyprland/default.nix
+    ./Modules/Miku-Grub/default.nix
+    
     inputs.silentSDDM.nixosModules.default
   ];
   
@@ -34,16 +37,6 @@
   # Set your time zone
   time.timeZone = "America/Mexico_City";
   
-  # Hyprland and cuates
-  programs = {
-    hyprland.enable = true;
-    hyprlock.enable = true;
-  };
-  services.displayManager = {
-    sddm.enable = true;
-    sddm.wayland.enable = true;
-  };
-  
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -51,14 +44,6 @@
   };
   console.keyMap = "us";
  
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-  services.printing.drivers = [ pkgs.hplip ];
-
-  # SANE for scaing
-  hardware.sane.enable = true;
-  hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ]; 
-
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -85,12 +70,8 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Flakes and LSP
+  # Flakes 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-
-  # ¬Enable nano
-  programs.nano.enable = false;
 
   # Steam
   programs = {
@@ -103,47 +84,20 @@
   };
   services.xserver.videoDrivers = [ "radeon" ];
   
-  # Thunderbird 
-  programs.thunderbird = {
-    enable = true;
-    package = pkgs.unstable.thunderbird;
-  };
-
-  programs.kdeconnect.enable = true;
-
  # Packages in the system
   environment.systemPackages = with pkgs; [
+    #Fundamental
+    git
+    kitty
+    pkgs.brightnessctl 
+    pkgs.librewolf
+    pkgs.lsd 
 
-  #Fundamental
-  git
-  kitty
-  pkgs.brightnessctl 
-  pkgs.grimblast
-  pkgs.librewolf
-  pkgs.lsd 
-
-  # LSPs
-  pkgs.unstable.clang-tools 
-  pkgs.unstable.texlab 
-  pkgs.unstable.nixd 
-
-  # Graphical things
-  pkgs.hyprcursor 
-  pkgs.hyprgraphics 
-  pkgs.hyprpaper 
-  pkgs.hyprpicker 
-  pkgs.hyprtoolkit 
-  
-  # Useful stuff
-  pkgs.waybar
-  pkgs.waypaper
-  
-  # Gaming 
-  pkgs.lm_sensors
-  pkgs.mangohud
-  pkgs.protonup-ng 
+    # Steam
+    pkgs.lm_sensors
+    pkgs.mangohud
+    pkgs.protonup-ng 
   ];
-
 
  # SDDM Theme 
  programs.silentSDDM = {
