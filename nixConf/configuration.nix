@@ -10,7 +10,7 @@
     ./Modules/Battery/default.nix
     ./Modules/College/default.nix
     ./Modules/Hyprland/default.nix
-    ./Modules/Miku-Grub/default.nix
+    ./Modules/Miku-Grub/default.nix 
     
     inputs.silentSDDM.nixosModules.default
   ];
