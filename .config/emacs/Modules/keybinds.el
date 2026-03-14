@@ -1,0 +1,5 @@
+(keymap-global-set "C-x C-i" 'nerd-icons-dired-mode)
+(keymap-global-set "M-v" 'lsp)
+(keymap-global-set "C-M-x" 'dap-breakpoint-add)
+(keymap-global-set "C-4" 'flyspell-mode)
+(global-set-key (kbd "C-$") (lambda () (interactive) (flyspell-mode) (lsp)))
