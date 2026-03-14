@@ -2,13 +2,38 @@
   pkgs,
   ...
 }:
-
 let
-  tex = (pkgs.texliveBasic.withPackages (
+  texlive-override = (pkgs.texliveBasic.withPackages (
     ps: with ps; [
       scheme-full 
       pspicture
     ]));
+
+  miku-hyprcursor = pkgs.stdenv.mkDerivation {
+    pname = "miku-cursor-linux-hyprcursor";
+    version = "unstable";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "BlockHaity";
+      repo = "miku-cursor-linux-hyprcursor";
+      rev = "7edcbeb9a401f20056357c6cc45fe7cea4016074";
+      hash = "sha256-Ao+XNWLcCJWMSJ8FNc2JYS1hhMViwo4iRsHfK+MeVMc=";
+    };
+    
+    installPhase = ''
+    runHook preInstall
+    mkdir -p $out/share/icons/miku-cursor-linux-hyprcursor
+    cp -R . $out/share/icons/miku-cursor-linux-hyprcursor/
+    runHook postInstall
+  '';
+  };
+
+  aspell-override = (pkgs.aspellWithDicts (dicts: with dicts; [
+    en
+    en-science
+    en-computers
+    es
+  ]));
 in
 {
   home = {
@@ -24,6 +49,7 @@ in
     pkgs.unstable.gimp
     pkgs.unstable.nurl
     pkgs.tor-browser
+    pkgs.pamixer
     pkgs.pavucontrol
   
     # Useless things
@@ -37,24 +63,30 @@ in
     pkgs.sl 
     pkgs.tty-clock 
     pkgs.unimatrix
+    miku-hyprcursor
 
     # College 
-    pkgs.libreoffice
-    tex 
+    aspell-override
+    texlive-override 
+    pkgs.zip
   ];
 
   programs.bash = {
     enable = true;
     shellAliases = {
       brights = "brightnessctl s";
-      nix-boot = "sudo nixos-rebuild boot --flake ~/nixConf";
-      nix-edit = "emacs ~/nixConf/configuration.nix";
-      nix-emacs = "nix-shell ~/.config/emacs";
-      nix-switch = "sudo nixos-rebuild switch --flake ~/nixConf";
-      nix-test = "sudo nixos-rebuild test --flake ~/nixConf";
-      nix-update = "sudo nix flake update --flake ~/nixConf";
+      nix-rebuild = "sudo nixos-rebuild --flake ~/nixConf/";
+      nix-update = "sudo nix flake update --flake ~/nixConf/";
       sld = "sl";
-      update-nix = "sudo nix flake update --flake ~/nixConf";
+      NyE = "echo 'uuuuhhjjj me recuerda ami infancia cundo estaba en el quinder y ise una obra jaaaaaaaaaa que risa cepillin con tus payasadas eres un naco y estupido'";
+    };
+  };
+
+  # Multimedia
+  programs = {
+    obs-studio.enable = true;
+    mpv = {
+      enable = true;
     };
   };
 
@@ -66,10 +98,10 @@ in
       epkgs.auctex
       epkgs.autotetris-mode
       epkgs.company
-      epkgs.dap-mode
       epkgs.nerd-icons-dired
       epkgs.evil
       epkgs.flycheck
+      epkgs.flyspell-correct
       epkgs.lsp-mode
       epkgs.lsp-treemacs
       epkgs.magit
@@ -82,10 +114,14 @@ in
     ];
 
     extraConfig = ''
-      (load "~/.config/emacs/Modules/gui.el");
-      (load "~/.config/emacs/Modules/pConfig.el")
+      (load "~/.config/emacs/Modules/gui.el")
+      (load "~/.config/emacs/Modules/auctex.el")
+      (load "~/.config/emacs/Modules/modes.el")
+      (load "~/.config/emacs/Modules/orderless.el")
+      (load "~/.config/emacs/Modules/evil.el")
+      (load "~/.config/emacs/Modules/theme.el")
       (load "~/.config/emacs/Modules/keybinds.el")
-      (load "~/.config/emacs/Modules/theme.el")'';
+      (setq ispell-dictionary "es")'';
   };
 
   programs.kitty = {
@@ -99,8 +135,10 @@ in
     shellIntegration.enableBashIntegration = true;
     extraConfig = ''
       background_opacity 0.4
-      backgroun_blur 1
-      cursor_shape block 
+      backgroun_blur 2
+      mouse_hide_wait 1.5
+      cursor_shape block
+      cursor_stop_blicking_after 10.0
     '';
   };
 
@@ -136,27 +174,14 @@ in
     };
   };
   
-#  programs.neovim = {
-#    enable = true;
-#    vimAlias = true; 
-#    coc.enable = true;
-#    extraConfig = ''
-#      set number relativenumber
-#      colorscheme shado
-
-#      highlight Normal guibg=none
-#      highlight NonText guibg=none
-#      highlight Normal ctermbg=none
-#      highlight NonText ctermbg=none
-#      highlight LineNr guibg=NONE
-#    '';
-
-#    plugins = with pkgs.vimPlugins; [
-#      shadorain
-#      telescope-zf-native-nvim
-#      vimtex
-#    ];
-#  };
+  gtk = {
+    enable = true;
+    colorScheme = "dark";
+    cursorTheme = {
+      name = "miku-cursor-linux"; 
+      size = 48;
+    };
+  };
 
   services.kdeconnect.enable = true;
 }
