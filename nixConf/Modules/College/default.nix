@@ -35,7 +35,8 @@
       pkgs.unstable.texlab 
       pkgs.unstable.nixd
 
-      # DAPs 
+      # For the USB where I have my TeX files 
+      pkgs.cryptsetup
     ];
   };
 }
