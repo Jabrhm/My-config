@@ -10,9 +10,10 @@
     ./Modules/Battery/default.nix
     ./Modules/College/default.nix
     ./Modules/Hyprland/default.nix
-    ./Modules/Miku-Grub/default.nix 
-    
-    inputs.silentSDDM.nixosModules.default
+    ./Modules/Miku-Grub/default.nix
+    ./Modules/SDDM_Theme/default.nix
+    ./Modules/Steam/default.nix
+    inputs.silentSDDM.nixosModules.default 
   ];
   
   system.nixos.label = "Hypr_and_cuates";
@@ -27,24 +28,24 @@
     settings.auto-optimise-store = true;
   };
 
-  # Profile and Network
+  # Network
   networking = {
     hostName = "nix"; 
     networkmanager.enable = true;
     modemmanager.enable = true;
   };
 
-  # Set your time zone
+  # Time Zone
   time.timeZone = "America/Mexico_City";
   
-  # Configure keymap in X11
+  # Keymap 
   services.xserver.xkb = {
     layout = "us";
     variant = "intl";
   };
   console.keyMap = "us";
  
-  # Enable sound with pipewire.
+  # Sound 
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -55,7 +56,7 @@
     jack.enable = true;
   };
 
-  # Define a user account.
+  # User 
   users.users.abraham = {
     isNormalUser = true;
     description = "Abraham";
@@ -65,6 +66,7 @@
   # Fonts
   fonts.packages = with pkgs; [
     nerd-fonts.hack
+    pkgs.jetbrains-mono
   ];
   
   # Allow unfree packages
@@ -72,19 +74,8 @@
 
   # Flakes 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Steam
-  programs = {
-    steam = {
-      enable = true;
-      protontricks.enable = true;
-      gamescopeSession.enable = true;
-    };
-    gamemode.enable = true;
-  };
-  services.xserver.videoDrivers = [ "radeon" ];
   
- # Packages in the system
+ # Global Packages
   environment.systemPackages = with pkgs; [
     #Fundamental
     git
@@ -92,81 +83,14 @@
     pkgs.brightnessctl 
     pkgs.librewolf
     pkgs.lsd 
-
-    # Steam
-    pkgs.lm_sensors
-    pkgs.mangohud
-    pkgs.protonup-ng 
   ];
 
- # SDDM Theme 
- programs.silentSDDM = {
-   enable = true;
-   theme = "rei";
-
-   profileIcons = {
-     abraham = pkgs.fetchurl {
-       name = "icon";
-       url = "https://cdn.donmai.us/original/dc/ab/__nana_vocaloid_and_1_more_drawn_by_nou_nounknown__dcabacfdc153f2021a6361f0e176cf1c.jpg";
-       hash = "sha256-NtHL40CWIN8wOFl1rXw9kyvT/5y5Ai1aNGyOYV9lRTo=";
-     };
-   };
-
-   backgrounds = {
-     pink-miku = pkgs.fetchurl {
-       name = "pink-miku";
-       url = "https://konachan.net/sample/570b88aa27c46500b068ba765db6c34f/Konachan.com%20-%20391747%20sample.jpg";
-       hash = "sha256-TtGL6ZBBnxCikkzOxC6YXV3kOGxxt2ZBlTMLx6yy7hs=";
-     };
-   };
-
-   settings = {
-     # Login screen settings
-     "LoginScreen" = {
-       background = "pink-miku";
-     };
-     "LoginScreen.LoginArea.Avatar" = {
-       active-border-color = "#140a1d";
-     };
-     "LoginScreen.LoginArea.Spinner" = {
-       color = "#140a1d";
-       text = "Dead to capitalism :3";
-     };
-     "LoginScreen.LoginArea.Username" = {
-       color = "#140a1d";
-     };
-     "LoginScreen.MenuArea.Power" = {
-       content-color = "#140a1d";
-     };
-     "LoginScreen.MenuArea.Keyboard" = {
-       content-color = "#140a1d";
-     };
-     "LoginScreen.MenuArea.Layout" = {
-       content-color = "#140a1d";
-     };
-     "LoginScreen.MenuArea.Session" = {
-       content-color = "#140a1d";
-     };
-     "LoginScreen.LoginArea.PasswordInput" = {
-       content-color = "#140a1d";
-       border-color = "#140a1d";
-     };
-
-     # LockScreen settings
-     "LockScreen" = {
-       background = "pink-miku";
-     };
-   };
- };
- 
- # Enable the OpenSSH daemon.
+ # SSH and GNUPG
  services.openssh.enable = true;
- 
- # Enable GNUPG
  programs.gnupg.agent = {
    enable = true;
    enableSSHSupport = true;
  };
- 
+
  system.stateVersion = "25.05"; 
 }
