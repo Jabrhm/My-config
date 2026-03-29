@@ -64,10 +64,12 @@ in
     pkgs.tty-clock 
     pkgs.unimatrix
     miku-hyprcursor
+    pkgs.pipes
 
     # College 
     aspell-override
     texlive-override 
+    pkgs.libreoffice
     pkgs.zip
   ];
 
@@ -79,7 +81,11 @@ in
       nix-update = "sudo nix flake update --flake ~/nixConf/";
       sld = "sl";
       NyE = "echo 'uuuuhhjjj me recuerda ami infancia cundo estaba en el quinder y ise una obra jaaaaaaaaaa que risa cepillin con tus payasadas eres un naco y estupido'";
+      dunstTest = "dunstify 'uuuuhhjjj me recuerda ami infancia cundo estaba en el quinder y ise una obra jaaaaaaaaaa que risa cepillin con tus payasadas eres un naco y estupido'";
     };
+    initExtra = ''
+      export PS1='\n\[\033[01;34m\]\w\n\[\033[01;32m\][\u☭\h]\$\[\033[00m\] '
+    '';
   };
 
   # Multimedia
@@ -111,6 +117,7 @@ in
       epkgs.proof-general
       epkgs.undo-tree
       epkgs.vertico 
+      epkgs.vterm
     ];
 
     extraConfig = ''
@@ -171,6 +178,7 @@ in
       truecolor = true;
       vim_keys = true;
       update_ms = 500;
+      proc_sorting = "memory";
     };
   };
   
@@ -184,4 +192,35 @@ in
   };
 
   services.kdeconnect.enable = true;
+  services.dunst = {
+    enable = true;
+    settings = {
+      global = {
+        corner_radius = 7;
+        width = "(200,430)";
+        height = "(100,300)";
+        offset = "(30,50)";
+        origin = "top-right";
+        transparency = 90;
+        frame_color = "#f5466d";
+        font = "Jetbrains Mono 10";
+      };
+      
+      urgency_normal = {
+        background = "#191724";
+        foreground = "#e3c7fb";
+        timeout = 5;
+      }; 
+      urgency_low = {
+        background = "#191724";
+        foreground = "#8897f4";
+        timeout = 5;
+      }; 
+      urgency_critical = {
+        background = "#191724";
+        foreground = "#b52a5b";
+        timeout = 5;
+      }; 
+    };
+  };
 }
